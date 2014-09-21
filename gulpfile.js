@@ -182,7 +182,7 @@ gulp.task('images', function () {
 gulp.task('push', shell.task([
     'git add .',
     'git commit -am"autocommit"',
-    'git push -u origin master"',
+    'git push --allow-empty',
     'git subtree push --prefix dist heroku master'
 ]));
 
