@@ -18672,48 +18672,79 @@ module.exports = require('./lib/React');
 /** @jsx React.DOM */
 
 'use strict';
+var SetIntervalMixin = {
+    componentWillMount: function() {
+        this.intervals = [];
+    },
+    setInterval: function() {
+        this.intervals.push(setInterval.apply(null, arguments));
+    },
+    componentWillUnmount: function() {
+        this.intervals.map(clearInterval);
+    }
+};
 
 var React = require('react'),
 
     FastSin = React.createClass({displayName: 'FastSin',
-        //fastSin: function(steps){
-        //        var table = [],
-        //            ang = 0,
-        //            angStep = (Math.PI *2) / steps;
-        //        do {
-        //            table.push(Math.sin(ang));
-        //            ang += angStep
-        //        } while (ang < Math.PI * 2);
-        //        return table;
-        //},
-        //
-        render: function() {
-            //var divs = '';
-            //for (var i = 0; i < 480; i++) {
-            //    divs +=
-            //         '<div style = "position:absolute;width:1px;height:40px;'
-            //         + 'background-color:#0d0; top:0px, left: '
-            //         + i + 'px;"></div>';
+        getInitialState: function () {
+            return {
+                windowWidth: window.innerWidth,
+                tick: 1,
+                up:1
+            }
+        },
+        getDefaultProps: function (){
+            return{
+                sinTable: false
+            }
+        },
+        mixins: [SetIntervalMixin], // Use the mixin
+        componentDidMount: function() {
+            this.setInterval(this.tick, 1); // Call a method on the mixin
+        },
+        tick: function() {
+            //if(this.state.windowWidth !== window.innerWidth){
+            //    this.replaceState({windowWidth:window.innerWidth})
             //}
-            //var drawTarget = $('#target');
-            //drawTarget.append(divs);
-            //var bars = drawTarget.children();
-            //var sinTable = this.fastSin(4096);
-            //var x = 0;
             //
-            //var drawGraph = function(ang, freq, height) {
-            //    var height2 = height * 2;
-            //    var sinTable = this.fastSin(4096);
-            //    for (var i  = 0; i < 480; i++) {
-            //        bars[i].style.top = 160 - height + sinTable[(ang + (i * freq)) & 4095] * height +'px';
-            //        bars[i].style.height = height2 + 'pw';
+            //
+            //if(this.state.tick>100 && !this.state.up){
+            //    var tick=-2
+            //    if(tick<=0){
+            //        var up=1
             //    }
+            //    this.setState({tick:this.state.tick+=tick, up:up})
+            //} else {
+            //    tick=2
+            //    if(tick>=100){
+            //        var up=0
+            //    }
+            //    this.setState({tick:this.state.tick+=tick, up:up})
             //}
-            //
-            //setInterval(function(){
-            //     this.drawGraph(x * 50, 32 - sinTable[(x * 20) & 4095] * 16),
-            //         50 - (sinTable[(x * 10) & 4095] * 20)
-            //})();
+
+        },
+        fastSin: function(steps){
+                var table = [],
+                    ang = 0,
+                    angStep = (Math.PI *2) / steps;
+                do {
+                    table.push(Math.sin(ang));
+                    ang += angStep
+                } while (ang < Math.PI * 2);
+                return table;
+        },
+        draw: function(){
+            var divs = [];
+            for (var i=0; i < window.innerWidth; i++) {
+                divs += '<div style = "position:absolute;width:1px;height:0px;'
+                + 'background-color:#0d0; top:280px; left: '
+                + i + 'px;"></div>';
+            }
+            return divs;
+        },
+        render: function() {
+
             var myStyle = {
                 width: '480px',
                 height: '320px',
@@ -18721,46 +18752,25 @@ var React = require('react'),
                 position: 'relative'
             };
 
+            var x = 0, sinTable = this.fastSin(4096), pageWidth = window.innerWidth;
+            var $drawTarget = $('#draw-target'), divs = this.draw();
+            $drawTarget.css("width",!this.state.windowWidth ? window.innerWidth : this.state.windowWidth+"px");
 
-            var fastSin = function(steps) {
-                var table = [],
-                    ang = 0,
-                    angStep = (Math.PI * 2) / steps;
-                do {
-                    table.push(Math.sin(ang));
-                    ang += angStep;
-                } while (ang < Math.PI * 2);
-                return table;
-            };
-
-            var sinTable = fastSin(4096),
-                $drawTarget = $('#draw-target'),
-                bars, x = 0, pageWidth = window.innerWidth;
+            $drawTarget.append(divs);
+            var bars = $drawTarget.children();
             var drawGraph = function(ang, freq, height) {
                 var height2 = height * 2;
                 for (var i = 0; i < pageWidth; i++) {
-                    if(undefined !== typeof bars[i]){
                     bars[i].style.top = 200 - height + sinTable[(ang + (i * freq)) & 4095] * height + 'px';
                     bars[i].style.height = height2 + 'px';
-                    }
                 }
             };
+            //x=this.state.tick;
+            setInterval(function(){
+            drawGraph(x * 150, 32 - (sinTable[(x * 20) & 4095] * 16), 50 - (sinTable[(x * 10) & 4095] * 20));
+            x++;
+            },20)
 
-
-            var divs = [];
-            for (var i=0; i < pageWidth; i++) {
-                divs += '<div style = "position:absolute;width:1px;height:0px;'
-                + 'background-color:#0d0; top:280px; left: '
-                + i + 'px;"></div>';
-            }
-
-
-            $drawTarget.append(divs);
-            bars = $drawTarget.children();
-            setInterval(function() {
-                drawGraph(x * 150, 32 - (sinTable[(x * 20) & 4095] * 16), 50 - (sinTable[(x * 10) & 4095] * 20));
-                x++;
-            }, 20);
 
             return (
                 React.DOM.div({style: myStyle, dangerouslySetInnerHTML: {__html: divs}})
@@ -18780,7 +18790,7 @@ var React = require('react'),
     Mycomponent = React.createClass({displayName: 'Mycomponent',
       render: function() {
         return (
-          React.DOM.h1({className: "Mycomponent"}, "Picture Element Demo")
+          React.DOM.h1({className: "Mycomponent"}, "ReactSin")
         )
       }
     });
