@@ -1,6 +1,6 @@
-# Heroku Kit
+# React Sin
 
-A starting point for creating apps on Heroku with Bootstrap & PHP
+Testing a DOM-based sinewave w/jQuery & React
 
 ## Build
 
@@ -14,7 +14,7 @@ Do all your work in 'src'. Monitor & build by executing **gulp**. Distribute the
 
 ## Deploy on Heroku
 
-Add the following buildpack:
+(First deploy) Add the following buildpack:
 
     heroku config:set BUILDPACK_URL=https://github.com/CHH/heroku-buildpack-php
 
@@ -24,7 +24,9 @@ Deploy the 'dist' folder:
 
 Or easier still:
 
-    gulp git-push
+    gulp heroku
+
+----
 
 Add database (if needed)
 

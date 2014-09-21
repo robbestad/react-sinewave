@@ -179,9 +179,10 @@ gulp.task('images', function () {
 });
 
 
-gulp.task('heroku', shell.task([
+gulp.task('push', shell.task([
     'git add .',
     'git commit -am"autocommit"',
+    'git push -u origin master"',
     'git subtree push --prefix dist heroku master'
 ]));
 
@@ -215,5 +216,5 @@ gulp.task('default', ['css','jscripts','images','jslibs','php']);
 gulp.task('watchify', ['default', 'watch']);
 gulp.task('watcher', ['watch', 'css', 'fonts', 'jscripts', 'images', 'jslibs', 'php']);
 gulp.task('serve', ['watch', 'css', 'fonts', 'jscripts', 'images', 'jslibs', 'php', 'webserver']);
-gulp.task('git-deploy', [ 'css', 'fonts', 'jscripts', 'images', 'jslibs',  'php', 'heroku']);
+gulp.task('heroku', [ 'css', 'fonts', 'jscripts', 'images', 'jslibs',  'php', 'push']);
 
