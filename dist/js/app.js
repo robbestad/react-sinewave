@@ -18702,7 +18702,7 @@ var React = require('react'),
         },
         mixins: [SetIntervalMixin], // Use the mixin
         componentDidMount: function() {
-            this.setInterval(this.ticker, 1); // Call a method on the mixin
+            this.setInterval(this.ticker, 20); // Call a method on the mixin
         },
         ticker: function() {
             this.setState({

@@ -1,6 +1,6 @@
 # React Sin
 
-Testing a DOM-based sinewave w/jQuery & React
+Testing a DOM-based sinewave with React
 
 Check out [the result](http://reactsin.herokuapp.com/)
 

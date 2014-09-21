@@ -214,7 +214,6 @@ gulp.task('watch', function () {
 // gulp main tasks
 gulp.task('default', ['css','jscripts','images','jslibs','php', 'php2html']);
 gulp.task('watchify', ['default', 'watch']);
-gulp.task('watcher', ['watch', 'css', 'fonts', 'jscripts', 'images', 'jslibs', 'php']);
-gulp.task('serve', ['watch', 'css', 'fonts', 'jscripts', 'images', 'jslibs', 'php', 'webserver']);
+gulp.task('serve', ['watchify', 'webserver']);
 gulp.task('heroku', ['default', 'push']);
 
