@@ -79,12 +79,12 @@ gulp.task('php', function () {
         .pipe(gulp.dest('build'));
 });
 
-//gulp.task('php2html', function () {
-//    return gulp.src(paths.php)
-//        .pipe(php2html())
-//        .pipe(prettify())
-//        .pipe(gulp.dest('dist'));
-//});
+gulp.task('php2html', function () {
+    return gulp.src('src/*.php')
+        .pipe(php2html())
+        .pipe(prettify())
+        .pipe(gulp.dest('dist'));
+});
 
 gulp.task('fonts', function () {
     return gulp.src(paths.fonts)
@@ -206,15 +206,15 @@ gulp.task('watch', function () {
     gulp.watch(paths.scss, ['css']);
     gulp.watch('src/scss/**/*', ['css']);
     gulp.watch(paths.html, ['html']);
-    //gulp.watch(paths.php, ['php2html']);
+    gulp.watch(paths.php, ['php2html']);
     gulp.watch(paths.php, ['php']);
     gulp.watch(paths.images, ['images']);
 });
 
 // gulp main tasks
-gulp.task('default', ['css','jscripts','images','jslibs','php']);
+gulp.task('default', ['css','jscripts','images','jslibs','php', 'php2html']);
 gulp.task('watchify', ['default', 'watch']);
 gulp.task('watcher', ['watch', 'css', 'fonts', 'jscripts', 'images', 'jslibs', 'php']);
 gulp.task('serve', ['watch', 'css', 'fonts', 'jscripts', 'images', 'jslibs', 'php', 'webserver']);
-gulp.task('heroku', [ 'css', 'fonts', 'jscripts', 'images', 'jslibs',  'php', 'push']);
+gulp.task('heroku', ['default', 'push']);
 

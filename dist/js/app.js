@@ -18753,7 +18753,7 @@ var React = require('react'),
                 var height2 = height * 2, divs = [];
                 for (var i = 0; i < pageWidth; i++) {
                     var barStyle={
-                        top: 180 - height + sinTable[(ang + (i * freq)) & 4095] * height + 'px',
+                        top: 160 - height + sinTable[(ang + (i * freq)) & 4095] * height + 'px',
                         height: height2 + 'px',
                         position:'absolute',
                         width:'1px',
