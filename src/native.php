@@ -27,18 +27,18 @@
     
    var sinTable = fastSin(4096),
    $drawTarget = $('#draw-target'),
-   divs = '',i, bars, x = 0;
+   divs = '',i, bars, x = 0,  pageWidth = window.innerWidth;
    var drawGraph = function(ang, freq, height) {
     var height2 = height * 2;
-    for (var i = 0; i < 480; i++) {
-     bars[i].style.top = 60 - height + sinTable[(ang + (i * freq)) & 4095] * height + 'px';
+    for (var i = 0; i < pageWidth; i++) {
+     bars[i].style.top = 200 - height + sinTable[(ang + (i * freq)) & 4095] * height + 'px';
      bars[i].style.height = height2 + 'px';
     }
    };
     
-   for (i = 0; i < 480; i++) {
+   for (i = 0; i < pageWidth; i++) {
     divs  += '<div style = "position:absolute;width:1px;height:40px;'
-      + 'background-color:#0d0; top:0px; left: '
+      + 'background-color:#0d0; top:80px; left: '
       + i + 'px;"></div>';
    }
    $drawTarget.append(divs);
