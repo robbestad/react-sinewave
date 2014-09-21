@@ -1,6 +1,9 @@
 /** @jsx React.DOM */
 
-'use strict';
+(function(){
+    'use strict';
+})();
+
 var SetIntervalMixin = {
     componentWillMount: function() {
         this.intervals = [];
@@ -12,46 +15,28 @@ var SetIntervalMixin = {
         this.intervals.map(clearInterval);
     }
 };
-
 var React = require('react'),
 
     FastSin = React.createClass({
         getInitialState: function () {
             return {
-                windowWidth: window.innerWidth,
-                tick: 1,
-                up:1
+                //windowWidth: window.innerWidth,
+                myTicker: 1
             }
         },
-        getDefaultProps: function (){
-            return{
-                sinTable: false
+        getDefaultProps: function () {
+            return {
+                mySinTable: false
             }
         },
         mixins: [SetIntervalMixin], // Use the mixin
         componentDidMount: function() {
-            this.setInterval(this.tick, 1); // Call a method on the mixin
+            this.setInterval(this.ticker, 1); // Call a method on the mixin
         },
-        tick: function() {
-            //if(this.state.windowWidth !== window.innerWidth){
-            //    this.replaceState({windowWidth:window.innerWidth})
-            //}
-            //
-            //
-            //if(this.state.tick>100 && !this.state.up){
-            //    var tick=-2
-            //    if(tick<=0){
-            //        var up=1
-            //    }
-            //    this.setState({tick:this.state.tick+=tick, up:up})
-            //} else {
-            //    tick=2
-            //    if(tick>=100){
-            //        var up=0
-            //    }
-            //    this.setState({tick:this.state.tick+=tick, up:up})
-            //}
-
+        ticker: function() {
+            this.setState({
+                myTicker:  this.state.myTicker + 1
+            });
         },
         fastSin: function(steps){
                 var table = [],
@@ -72,8 +57,8 @@ var React = require('react'),
             }
             return divs;
         },
-        render: function() {
 
+        render: function() {
             var myStyle = {
                 width: '480px',
                 height: '320px',
@@ -81,28 +66,38 @@ var React = require('react'),
                 position: 'relative'
             };
 
-            var x = 0, sinTable = this.fastSin(4096), pageWidth = window.innerWidth;
-            var $drawTarget = $('#draw-target'), divs = this.draw();
-            $drawTarget.css("width",!this.state.windowWidth ? window.innerWidth : this.state.windowWidth+"px");
+            // Define sinTable
+            var sinTable;
+            if(!this.props.sinTable){
+                sinTable = this.fastSin(4096);
+                this.props.sinTable = sinTable;
+            }
+            sinTable = this.props.sinTable; if(!sinTable) return (<div></div>);
 
-            $drawTarget.append(divs);
-            var bars = $drawTarget.children();
+            // Define page
+            var pageWidth = document.getElementById("fastsin").offsetWidth,
+                x=this.state.myTicker;
+
             var drawGraph = function(ang, freq, height) {
-                var height2 = height * 2;
+                var height2 = height * 2, divs = [];
                 for (var i = 0; i < pageWidth; i++) {
-                    bars[i].style.top = 200 - height + sinTable[(ang + (i * freq)) & 4095] * height + 'px';
-                    bars[i].style.height = height2 + 'px';
+                    var barStyle={
+                        top: 180 - height + sinTable[(ang + (i * freq)) & 4095] * height + 'px',
+                        height: height2 + 'px',
+                        position:'absolute',
+                        width:'1px',
+                        backgroundColor:'#0d0',
+                        left:i+'px'
+                    };
+                    divs.push(<div key={i} style={barStyle}></div>);
                 }
+                return divs;
             };
-            //x=this.state.tick;
-            setInterval(function(){
-            drawGraph(x * 150, 32 - (sinTable[(x * 20) & 4095] * 16), 50 - (sinTable[(x * 10) & 4095] * 20));
-            x++;
-            },20)
 
+            divs=drawGraph(x * 150, 32 - (sinTable[(x * 20) & 4095] * 16), 50 - (sinTable[(x * 10) & 4095] * 20));
 
             return (
-                <div style={myStyle} dangerouslySetInnerHTML={{__html: divs}}></div>
+                <div ref="myDiv" style={myStyle}>{divs}</div>
                 )
         }
     });
