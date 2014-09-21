@@ -2,6 +2,8 @@
 
 Testing a DOM-based sinewave w/jQuery & React
 
+Check out [the result](http://reactsin.herokuapp.com/)
+
 ## Build
 
    Clone the repo.
