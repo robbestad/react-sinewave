@@ -65,7 +65,8 @@ $json = json_decode(file_get_contents(__DIR__."/../package.json"),true);
             Was coming, and not only a night, an age.<br/>
             Someone had better be prepared for rage.<br/>
             There would be more than ocean-water broken<br/>
-            Before God's last <em>Put out the light</em> was spoken.
+            Before God's last Put out the light was spoken.<br/>
+            <em>Robert Frost</em>
         </p>
         <?php } else { ?>
           <p>
@@ -82,7 +83,8 @@ $json = json_decode(file_get_contents(__DIR__."/../package.json"),true);
               Was coming, and not only a night, an age.<br/>
               Someone had better be prepared for rage.<br/>
               There would be more than ocean-water broken<br/>
-              Before God's last <em>Put out the light</em> was spoken.
+              Before God's last Put out the light was spoken.<br/>
+              <em>Robert Frost</em>
           </p>
         <?php } ?>
     </div>
@@ -102,7 +104,7 @@ $json = json_decode(file_get_contents(__DIR__."/../package.json"),true);
 
     <div id="footer">
 
-        Copyright &copy; <?php echo date("Y"); ?> - Sven Anders Robbestad - Source: <a href="<?php echo $json["repository"]["url"]; ?>">github.com</a>
+         &copy; <?php echo date("Y"); ?> - Sven A Robbestad - <a href="<?php echo $json["repository"]["url"]; ?>">source</a>
     </div>
 
 </div>
