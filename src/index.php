@@ -45,20 +45,27 @@ if (@$details->country === "NO") {
     <div id="fastsin">
 
     </div>
-    <div id="draw-target"></div>
-<!--    <div class="jumbotron">-->
-<!---->
-<!--        --><?php //if (@$details->country === "NO") { ?>
-<!--        <p>-->
-<!--           norsk-->
-<!--        </p>-->
-<!--        --><?php //} else { ?>
-<!--          <p>-->
-<!--              english-->
-<!--          </p>-->
-<!--        --><?php //} ?>
-<!--    </div>-->
-<!---->
+<!--    <div id="draw-target"></div>-->
+    <div class="jumbotron">
+
+        <?php if (@$details->country === "NO") { ?>
+        <p>
+            Stay calm
+        </p>
+        <p>
+            No need for alarm
+        </p>
+            <p>
+                It's just a wave
+            </p>
+        <?php } else { ?>
+          <p>
+              Stay calm
+
+          </p>
+        <?php } ?>
+    </div>
+
 <!--    <div class="row marketing">-->
 <!--        <div class="col-md-6 col-xs-12">-->
 <!--            <picture>-->

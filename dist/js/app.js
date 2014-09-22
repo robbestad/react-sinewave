@@ -18694,7 +18694,7 @@ var React = require('react'),
             return {
                 //windowWidth: window.innerWidth,
                 myTicker: 1,
-                length:4096
+                length:2048
             }
         },
         getDefaultProps: function () {
@@ -18774,19 +18774,19 @@ var React = require('react'),
                         top: 160 - height + sinTable[(ang + (i * freq)) & (maxSize-1)] * height + 'px',
                         height: height2 + 'px',
                         position:'absolute',
-                        width:'10px',
+                        width:'1px',
                         backgroundColor:hue,
                         left:i*distance+'px',
-                        opacity:'0.7'
+                        opacity:'0.4'
                     };
                     divs.push(React.DOM.div({key: i, style: barStyle}));
                 }
                 return divs;
             };
             for(var x = 0; x<num; x++){
-                this.props.divs.one[x]=drawGraph('#F1E3AD', 5, x * 55, 72 - (sinTable[(x) &  (maxSize-1)] *15), 45
+                this.props.divs.one[x]=drawGraph('#F1903B', 1, x * 55, 72 - (sinTable[(x) &  (maxSize-1)] *15), 45
                     - (sinTable[(x*5) &  (maxSize-1)] * 20));
-                //this.props.divs.two[x]=drawGraph('#F1903B', 3, x * 55, 46 - (sinTable[(x) &  (maxSize-1)] *15), 45
+                //this.props.divs.two[x]=drawGraph('#F1E3AD', 3, x * 55, 46 - (sinTable[(x) &  (maxSize-1)] *15), 45
                 //    - (sinTable[(x*5) &  (maxSize-1)] * 20));
             }
             this.props.calculated=true;
@@ -18795,10 +18795,10 @@ var React = require('react'),
         render: function() {
             if(!this.props.calculated) return(React.DOM.div(null))
             var myStyle = {
-                width: '480px',
-                height: '320px',
-                bgColor: '#000',
-                position: 'relative'
+                //width: '480px',
+                //height: '320px',
+                //bgColor: '#000',
+                position: 'fixed'
             };
 
             divs=this.props.divs.one[this.state.myTicker];
