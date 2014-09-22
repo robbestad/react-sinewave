@@ -18749,26 +18749,37 @@ var React = require('react'),
             var pageWidth = document.getElementById("fastsin").offsetWidth,
                 x=this.state.myTicker;
 
-            var drawGraph = function(ang, freq, height) {
+            var drawGraph = function(color, distance, ang, freq, height) {
                 var height2 = height * 2, divs = [];
-                for (var i = 0; i < pageWidth/3; i++) {
+                for (var i = 0; i < pageWidth/distance; i++) {
+                    var hue;
+                    if(!color)
+                    hue = 'rgb(' + (Math.floor(Math.random() * 40)) + ',' + (Math.floor(Math.random() * 40)) +
+                        ',' + (Math.floor(Math.random() * 40)) + ')';
+                    else
+                        hue = color;
                     var barStyle={
                         top: 160 - height + sinTable[(ang + (i * freq)) & 4095] * height + 'px',
                         height: height2 + 'px',
                         position:'absolute',
                         width:'10px',
-                        backgroundColor:'#0d0',
-                        left:i*3+'px'
+                        backgroundColor:hue,
+                        left:i*distance+'px',
+                        opacity:'0.7'
                     };
                     divs.push(React.DOM.div({key: i, style: barStyle}));
                 }
                 return divs;
             };
 
-            divs=drawGraph(x * 150, 32 - (sinTable[(x * 20) & 4095] * 16), 50 - (sinTable[(x * 10) & 4095] * 20));
+            divs=drawGraph('#F1E3AD', 5, x * 55, 72 - (sinTable[(x) & 4095] *15), 45 - (sinTable[(x*5) & 4095] * 20));
+            divs2=drawGraph('#F1903B', 6, x * 55, 46 - (sinTable[(x) & 4095] *15), 45 - (sinTable[(x*5) & 4095] * 20));
 
             return (
-                React.DOM.div({ref: "myDiv", style: myStyle}, divs)
+                React.DOM.div({ref: "myDiv", style: myStyle}, 
+                    divs, 
+                    divs2
+                )
                 )
         }
     });
