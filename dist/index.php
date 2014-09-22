@@ -1,6 +1,6 @@
 <?php
-$json = json_decode(file_get_contents(__DIR__."/../package.json"),true);
-require __DIR__.'/php/get_ip.php';
+$json = json_decode(file_get_contents(__DIR__ . "/../package.json"), true);
+require __DIR__ . '/php/get_ip.php';
 
 if (@$details->country === "NO") {
     $l_hjem = "Hjem";
@@ -45,64 +45,65 @@ if (@$details->country === "NO") {
     <div id="fastsin">
 
     </div>
-<!--    <div id="draw-target"></div>-->
+    <!--    <div id="draw-target"></div>-->
     <div class="jumbotron">
 
         <?php if (@$details->country === "NO") { ?>
-        <p>
-            The shattered water made a misty din.<br/>
-            Great waves looked over others coming in,<br/>
-            And thought of doing something to the shore<br/>
-            That water never did to land before.<br/>
-            The clouds were low and hairy in the skies,<br/>
-            Like locks blown forward in the gleam of eyes.<br/>
-            You could not tell, and yet it looked as if<br/>
-            The shore was lucky in being backed by cliff,<br/>
-            The cliff in being backed by continent;<br/>
-            It looked as if a night of dark intent<br/>
-            Was coming, and not only a night, an age.<br/>
-            Someone had better be prepared for rage.<br/>
-            There would be more than ocean-water broken<br/>
-            Before God's last Put out the light was spoken.<br/>
-            <em>Robert Frost</em>
-        </p>
+            <p>
+                The shattered water made a misty din.<br/>
+                Great waves looked over others coming in,<br/>
+                And thought of doing something to the shore<br/>
+                That water never did to land before.<br/>
+                The clouds were low and hairy in the skies,<br/>
+                Like locks blown forward in the gleam of eyes.<br/>
+                You could not tell, and yet it looked as if<br/>
+                The shore was lucky in being backed by cliff,<br/>
+                The cliff in being backed by continent;<br/>
+                It looked as if a night of dark intent<br/>
+                Was coming, and not only a night, an age.<br/>
+                Someone had better be prepared for rage.<br/>
+                There would be more than ocean-water broken<br/>
+                Before God's last Put out the light was spoken.<br/>
+                <em>Robert Frost</em>
+            </p>
         <?php } else { ?>
-          <p>
-              The shattered water made a misty din.<br/>
-              Great waves looked over others coming in,<br/>
-              And thought of doing something to the shore<br/>
-              That water never did to land before.<br/>
-              The clouds were low and hairy in the skies,<br/>
-              Like locks blown forward in the gleam of eyes.<br/>
-              You could not tell, and yet it looked as if<br/>
-              The shore was lucky in being backed by cliff,<br/>
-              The cliff in being backed by continent;<br/>
-              It looked as if a night of dark intent<br/>
-              Was coming, and not only a night, an age.<br/>
-              Someone had better be prepared for rage.<br/>
-              There would be more than ocean-water broken<br/>
-              Before God's last Put out the light was spoken.<br/>
-              <em>Robert Frost</em>
-          </p>
+            <p>
+                The shattered water made a misty din.<br/>
+                Great waves looked over others coming in,<br/>
+                And thought of doing something to the shore<br/>
+                That water never did to land before.<br/>
+                The clouds were low and hairy in the skies,<br/>
+                Like locks blown forward in the gleam of eyes.<br/>
+                You could not tell, and yet it looked as if<br/>
+                The shore was lucky in being backed by cliff,<br/>
+                The cliff in being backed by continent;<br/>
+                It looked as if a night of dark intent<br/>
+                Was coming, and not only a night, an age.<br/>
+                Someone had better be prepared for rage.<br/>
+                There would be more than ocean-water broken<br/>
+                Before God's last Put out the light was spoken.<br/>
+                <em>Robert Frost</em>
+            </p>
         <?php } ?>
     </div>
 
-<!--    <div class="row marketing">-->
-<!--        <div class="col-md-6 col-xs-12">-->
-<!--            <picture>-->
-<!--                <source media="(min-width: 45em)" srcset="img/large.jpg">-->
-<!--                <source media="(min-width: 32em)" srcset="img/med.jpg">-->
-<!--                <img src="img/small.jpg" alt="Rembrandt" class="img img-responsive">-->
-<!--            </picture>-->
-<!--        </div>-->
-<!--        <div class="col-md-6 col-xs-12">-->
-<!---->
-<!--        </div>-->
-<!--    </div>-->
+    <!--    <div class="row marketing">-->
+    <!--        <div class="col-md-6 col-xs-12">-->
+    <!--            <picture>-->
+    <!--                <source media="(min-width: 45em)" srcset="img/large.jpg">-->
+    <!--                <source media="(min-width: 32em)" srcset="img/med.jpg">-->
+    <!--                <img src="img/small.jpg" alt="Rembrandt" class="img img-responsive">-->
+    <!--            </picture>-->
+    <!--        </div>-->
+    <!--        <div class="col-md-6 col-xs-12">-->
+    <!---->
+    <!--        </div>-->
+    <!--    </div>-->
 
     <div id="footer">
 
-         &copy; <?php echo date("Y"); ?> - Sven A Robbestad - <a href="<?php echo $json["repository"]["url"]; ?>">source</a>
+        &copy; <?php echo date("Y"); ?> - Sven A Robbestad - <a
+            href="<?php echo $json["repository"]["url"]; ?>">source</a>
     </div>
 
 </div>
