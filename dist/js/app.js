@@ -18707,7 +18707,7 @@ var React = require('react'),
             }
         },
         componentWillMount: function() {
-            this.calculcateDivs(4096);
+            this.calculcateDivs(512);
         },
         mixins: [SetIntervalMixin], // Use the mixin
         componentDidMount: function() {
@@ -18715,8 +18715,12 @@ var React = require('react'),
         },
         ticker: function() {
             if(!this.props.calculated) return;
+            prevTicker=this.state.myTicker;
+            var newTicker=prevTicker+1;
+            if(prevTicker>511) newTicker=0;
+
             this.setState({
-                myTicker:  this.state.myTicker + 1
+                myTicker: newTicker
             });
         },
         fastSin: function(steps){
@@ -18742,8 +18746,10 @@ var React = require('react'),
         calculcateDivs: function (num){
             // Define sinTable
             var sinTable;
+            var maxSize=256*8; //was 4096
+
             if(!this.props.sinTable){
-                sinTable = this.fastSin(4096);
+                sinTable = this.fastSin(maxSize);
                 this.props.sinTable = sinTable;
             }
             sinTable = this.props.sinTable; if(!sinTable) return (React.DOM.div(null));
@@ -18762,7 +18768,7 @@ var React = require('react'),
                     else
                         hue = color;
                     var barStyle={
-                        top: 160 - height + sinTable[(ang + (i * freq)) & 4095] * height + 'px',
+                        top: 160 - height + sinTable[(ang + (i * freq)) & (maxSize-1)] * height + 'px',
                         height: height2 + 'px',
                         position:'absolute',
                         width:'10px',
@@ -18775,8 +18781,10 @@ var React = require('react'),
                 return divs;
             };
             for(var x = 0; x<num; x++){
-                this.props.divs.one[x]=drawGraph('#F1E3AD', 5, x * 55, 72 - (sinTable[(x) & 4095] *15), 45 - (sinTable[(x*5) & 4095] * 20));
-                this.props.divs.two[x]=drawGraph('#F1903B', 6, x * 55, 46 - (sinTable[(x) & 4095] *15), 45 - (sinTable[(x*5) & 4095] * 20));
+                this.props.divs.one[x]=drawGraph('#F1E3AD', 5, x * 55, 72 - (sinTable[(x) &  (maxSize-1)] *15), 45
+                    - (sinTable[(x*5) &  (maxSize-1)] * 20));
+                this.props.divs.two[x]=drawGraph('#F1903B', 6, x * 55, 46 - (sinTable[(x) &  (maxSize-1)] *15), 45
+                    - (sinTable[(x*5) &  (maxSize-1)] * 20));
             }
             this.props.calculated=true;
             console.log(num+' :: '+x+" :: DONE !");
