@@ -96,7 +96,8 @@ gulp.task('sass', function () {
     return gulp.src(paths.scss)
         .pipe(scss())
         .pipe(autoprefixer())
-        .pipe(cssmin())
+        //.pipe(cssmin())
+        .pipe(csso())
         .pipe(gulp.dest('src/css'));
 });
 
@@ -186,16 +187,24 @@ gulp.task('push', shell.task([
     'git subtree push --prefix dist heroku master'
 ]));
 
-// Execute the built-in webserver
-gulp.task('webserver', function () {
-    gulp.src('dist')
-        .pipe(webserver({
-            livereload: true,
-            path: 'dist',
-            port: '8085',
-            directoryListing: false,
-            open: true
-        }));
+//// Execute the built-in webserver
+//gulp.task('webserver', function () {
+//    gulp.src('dist')
+//        .pipe(webserver({
+//            livereload: true,
+//            path: 'dist',
+//            port: '8085',
+//            directoryListing: false,
+//            open: true
+//        }));
+//});
+
+gulp.task('browserSync', function () {
+    browserSync({
+        server: {
+            baseDir: './dist'
+        }
+    })
 });
 
 // Rerun the task when a file changes
@@ -214,6 +223,6 @@ gulp.task('watch', function () {
 // gulp main tasks
 gulp.task('default', ['css','jscripts','images','jslibs','php', 'php2html']);
 gulp.task('watchify', ['default', 'watch']);
-gulp.task('serve', ['watchify', 'webserver']);
+gulp.task('serve', ['watchify', 'browserSync']);
 gulp.task('heroku', ['default', 'push']);
 

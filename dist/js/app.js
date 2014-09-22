@@ -18751,14 +18751,14 @@ var React = require('react'),
 
             var drawGraph = function(ang, freq, height) {
                 var height2 = height * 2, divs = [];
-                for (var i = 0; i < pageWidth; i++) {
+                for (var i = 0; i < pageWidth/3; i++) {
                     var barStyle={
                         top: 160 - height + sinTable[(ang + (i * freq)) & 4095] * height + 'px',
                         height: height2 + 'px',
                         position:'absolute',
-                        width:'1px',
+                        width:'10px',
                         backgroundColor:'#0d0',
-                        left:i+'px'
+                        left:i*3+'px'
                     };
                     divs.push(React.DOM.div({key: i, style: barStyle}));
                 }
