@@ -30,6 +30,8 @@ if (@$details->country === "NO") {
     $l_kontakt = "Contact";
     $l_kode = "Code";
 }
+
+$json = json_decode(file_get_contents(__DIR__."/../package.json"),true);
 ?>
 
 <div class="container">
@@ -50,18 +52,37 @@ if (@$details->country === "NO") {
 
         <?php if (@$details->country === "NO") { ?>
         <p>
-            Stay calm
+            The shattered water made a misty din.<br/>
+            Great waves looked over others coming in,<br/>
+            And thought of doing something to the shore<br/>
+            That water never did to land before.<br/>
+            The clouds were low and hairy in the skies,<br/>
+            Like locks blown forward in the gleam of eyes.<br/>
+            You could not tell, and yet it looked as if<br/>
+            The shore was lucky in being backed by cliff,<br/>
+            The cliff in being backed by continent;<br/>
+            It looked as if a night of dark intent<br/>
+            Was coming, and not only a night, an age.<br/>
+            Someone had better be prepared for rage.<br/>
+            There would be more than ocean-water broken<br/>
+            Before God's last <em>Put out the light</em> was spoken.
         </p>
-        <p>
-            No need for alarm
-        </p>
-            <p>
-                It's just a wave
-            </p>
         <?php } else { ?>
           <p>
-              Stay calm
-
+              The shattered water made a misty din.<br/>
+              Great waves looked over others coming in,<br/>
+              And thought of doing something to the shore<br/>
+              That water never did to land before.<br/>
+              The clouds were low and hairy in the skies,<br/>
+              Like locks blown forward in the gleam of eyes.<br/>
+              You could not tell, and yet it looked as if<br/>
+              The shore was lucky in being backed by cliff,<br/>
+              The cliff in being backed by continent;<br/>
+              It looked as if a night of dark intent<br/>
+              Was coming, and not only a night, an age.<br/>
+              Someone had better be prepared for rage.<br/>
+              There would be more than ocean-water broken<br/>
+              Before God's last <em>Put out the light</em> was spoken.
           </p>
         <?php } ?>
     </div>
@@ -81,7 +102,7 @@ if (@$details->country === "NO") {
 
     <div id="footer">
 
-        Copyright &copy; <?php echo date("Y"); ?> - Sven Anders Robbestad - License: CC - Source: <a href="https://github.com/svenanders/inbeta-picture-element">github.com</a>
+        Copyright &copy; <?php echo date("Y"); ?> - Sven Anders Robbestad - Source: <a href="<?php echo $json["repository"]["url"]; ?>">github.com</a>
     </div>
 
 </div>

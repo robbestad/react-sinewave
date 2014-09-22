@@ -7,7 +7,7 @@ var React = require('react'),
     Mycomponent = React.createClass({
       render: function() {
         return (
-          <h1 className="Mycomponent">ReactSin</h1>
+          <h1 className="Mycomponent">Sine</h1>
         )
       }
     });

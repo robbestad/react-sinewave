@@ -18865,7 +18865,7 @@ var React = require('react'),
     Mycomponent = React.createClass({displayName: 'Mycomponent',
       render: function() {
         return (
-          React.DOM.h1({className: "Mycomponent"}, "ReactSin")
+          React.DOM.h1({className: "Mycomponent"}, "Sine")
         )
       }
     });
