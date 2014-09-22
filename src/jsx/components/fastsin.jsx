@@ -22,7 +22,8 @@ var React = require('react'),
         getInitialState: function () {
             return {
                 //windowWidth: window.innerWidth,
-                myTicker: 1
+                myTicker: 1,
+                length:4096
             }
         },
         getDefaultProps: function () {
@@ -36,7 +37,7 @@ var React = require('react'),
             }
         },
         componentWillMount: function() {
-            this.calculcateDivs(512);
+            this.calculcateDivs(this.state.length);
         },
         mixins: [SetIntervalMixin], // Use the mixin
         componentDidMount: function() {
@@ -46,7 +47,9 @@ var React = require('react'),
             if(!this.props.calculated) return;
             prevTicker=this.state.myTicker;
             var newTicker=prevTicker+1;
-            if(prevTicker>511) newTicker=0;
+            if(prevTicker>(this.state.length-1)) {
+                newTicker=0;
+            }
 
             this.setState({
                 myTicker: newTicker
@@ -75,7 +78,7 @@ var React = require('react'),
         calculcateDivs: function (num){
             // Define sinTable
             var sinTable;
-            var maxSize=256*8; //was 4096
+            var maxSize=this.state.length*4; //was 4096
 
             if(!this.props.sinTable){
                 sinTable = this.fastSin(maxSize);
@@ -112,8 +115,8 @@ var React = require('react'),
             for(var x = 0; x<num; x++){
                 this.props.divs.one[x]=drawGraph('#F1E3AD', 5, x * 55, 72 - (sinTable[(x) &  (maxSize-1)] *15), 45
                     - (sinTable[(x*5) &  (maxSize-1)] * 20));
-                this.props.divs.two[x]=drawGraph('#F1903B', 6, x * 55, 46 - (sinTable[(x) &  (maxSize-1)] *15), 45
-                    - (sinTable[(x*5) &  (maxSize-1)] * 20));
+                //this.props.divs.two[x]=drawGraph('#F1903B', 3, x * 55, 46 - (sinTable[(x) &  (maxSize-1)] *15), 45
+                //    - (sinTable[(x*5) &  (maxSize-1)] * 20));
             }
             this.props.calculated=true;
             console.log(num+' :: '+x+" :: DONE !");
@@ -128,14 +131,13 @@ var React = require('react'),
             };
 
             divs=this.props.divs.one[this.state.myTicker];
-            divs2=this.props.divs.two[this.state.myTicker++];
+            //divs2=this.props.divs.two[this.state.myTicker++];
 
             //console.log(this.state.myTicker);
 
             return (
                 <div ref="myDiv" style={myStyle}>
                     {divs}
-                    {divs2}
                 </div>
                 )
         }
