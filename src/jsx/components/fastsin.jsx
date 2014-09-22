@@ -7,6 +7,7 @@
 var SetIntervalMixin = {
     componentWillMount: function() {
         this.intervals = [];
+
     },
     setInterval: function() {
         this.intervals.push(setInterval.apply(null, arguments));
@@ -26,14 +27,23 @@ var React = require('react'),
         },
         getDefaultProps: function () {
             return {
-                mySinTable: false
+                mySinTable: false,
+                divs: {
+                    one:[],
+                    two:[]
+                },
+                calculated:false
             }
+        },
+        componentWillMount: function() {
+            this.calculcateDivs(4096);
         },
         mixins: [SetIntervalMixin], // Use the mixin
         componentDidMount: function() {
             this.setInterval(this.ticker, 20); // Call a method on the mixin
         },
         ticker: function() {
+            if(!this.props.calculated) return;
             this.setState({
                 myTicker:  this.state.myTicker + 1
             });
@@ -58,14 +68,7 @@ var React = require('react'),
             return divs;
         },
 
-        render: function() {
-            var myStyle = {
-                width: '480px',
-                height: '320px',
-                bgColor: '#000',
-                position: 'relative'
-            };
-
+        calculcateDivs: function (num){
             // Define sinTable
             var sinTable;
             if(!this.props.sinTable){
@@ -83,7 +86,7 @@ var React = require('react'),
                 for (var i = 0; i < pageWidth/distance; i++) {
                     var hue;
                     if(!color)
-                    hue = 'rgb(' + (Math.floor(Math.random() * 40)) + ',' + (Math.floor(Math.random() * 40)) +
+                        hue = 'rgb(' + (Math.floor(Math.random() * 40)) + ',' + (Math.floor(Math.random() * 40)) +
                         ',' + (Math.floor(Math.random() * 40)) + ')';
                     else
                         hue = color;
@@ -100,9 +103,26 @@ var React = require('react'),
                 }
                 return divs;
             };
+            for(var x = 0; x<num; x++){
+                this.props.divs.one[x]=drawGraph('#F1E3AD', 5, x * 55, 72 - (sinTable[(x) & 4095] *15), 45 - (sinTable[(x*5) & 4095] * 20));
+                this.props.divs.two[x]=drawGraph('#F1903B', 6, x * 55, 46 - (sinTable[(x) & 4095] *15), 45 - (sinTable[(x*5) & 4095] * 20));
+            }
+            this.props.calculated=true;
+            console.log(num+' :: '+x+" :: DONE !");
+        },
+        render: function() {
+            if(!this.props.calculated) return(<div></div>)
+            var myStyle = {
+                width: '480px',
+                height: '320px',
+                bgColor: '#000',
+                position: 'relative'
+            };
 
-            divs=drawGraph('#F1E3AD', 5, x * 55, 72 - (sinTable[(x) & 4095] *15), 45 - (sinTable[(x*5) & 4095] * 20));
-            divs2=drawGraph('#F1903B', 6, x * 55, 46 - (sinTable[(x) & 4095] *15), 45 - (sinTable[(x*5) & 4095] * 20));
+            divs=this.props.divs.one[this.state.myTicker];
+            divs2=this.props.divs.two[this.state.myTicker++];
+
+            //console.log(this.state.myTicker);
 
             return (
                 <div ref="myDiv" style={myStyle}>
