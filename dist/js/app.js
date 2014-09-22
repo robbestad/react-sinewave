@@ -18708,14 +18708,14 @@ var React = require('react'),
             }
         },
         componentWillMount: function() {
-            this.calculcateDivs(this.state.length);
+            //this.calculcateDivs(this.state.length);
         },
         mixins: [SetIntervalMixin], // Use the mixin
         componentDidMount: function() {
             this.setInterval(this.ticker, 20); // Call a method on the mixin
         },
         ticker: function() {
-            if(!this.props.calculated) return;
+            //if(!this.props.calculated) return;
             prevTicker=this.state.myTicker;
             var newTicker=prevTicker+1;
             if(prevTicker>(this.state.length-1)) {
@@ -18774,17 +18774,17 @@ var React = require('react'),
                         top: 160 - height + sinTable[(ang + (i * freq)) & (maxSize-1)] * height + 'px',
                         height: height2 + 'px',
                         position:'absolute',
-                        width:'1px',
+                        width:'4px',
                         backgroundColor:hue,
                         left:i*distance+'px',
-                        opacity:'0.4'
+                        opacity:'0.2'
                     };
                     divs.push(React.DOM.div({key: i, style: barStyle}));
                 }
                 return divs;
             };
             for(var x = 0; x<num; x++){
-                this.props.divs.one[x]=drawGraph('#F1903B', 1, x * 55, 72 - (sinTable[(x) &  (maxSize-1)] *15), 45
+                this.props.divs.one[x]=drawGraph('#F1903B', 7, x * 55, 72 - (sinTable[(x) &  (maxSize-1)] *15), 45
                     - (sinTable[(x*5) &  (maxSize-1)] * 20));
                 //this.props.divs.two[x]=drawGraph('#F1E3AD', 3, x * 55, 46 - (sinTable[(x) &  (maxSize-1)] *15), 45
                 //    - (sinTable[(x*5) &  (maxSize-1)] * 20));
@@ -18793,7 +18793,6 @@ var React = require('react'),
             console.log(num+' :: '+x+" :: DONE !");
         },
         render: function() {
-            if(!this.props.calculated) return(React.DOM.div(null))
             var myStyle = {
                 //width: '480px',
                 //height: '320px',
@@ -18801,17 +18800,70 @@ var React = require('react'),
                 position: 'fixed'
             };
 
-            divs=this.props.divs.one[this.state.myTicker];
-            //divs2=this.props.divs.two[this.state.myTicker++];
+            // Define sinTable
+            var sinTable;
+            if(!this.props.sinTable){
+                sinTable = this.fastSin(4096);
+                this.props.sinTable = sinTable;
+            }
+            sinTable = this.props.sinTable; if(!sinTable) return (React.DOM.div(null));
 
-            //console.log(this.state.myTicker);
+            // Define page
+            var pageWidth = document.getElementById("fastsin").offsetWidth,
+                x=this.state.myTicker;
+
+            var drawGraph = function(color, distance, ang, freq, height) {
+                var height2 = height * 2, divs = [];
+                for (var i = 0; i < pageWidth/distance; i++) {
+                    var hue;
+                    if(!color)
+                        hue = 'rgb(' + (Math.floor(Math.random() * 40)) + ',' + (Math.floor(Math.random() * 40)) +
+                        ',' + (Math.floor(Math.random() * 40)) + ')';
+                    else
+                        hue = color;
+                    var barStyle={
+                        top: 160 - height + sinTable[(ang + (i * freq)) & 4095] * height + 'px',
+                        height: height2 + 'px',
+                        position:'absolute',
+                        width:'10px',
+                        backgroundColor:hue,
+                        left:i*distance+'px',
+                        opacity:'0.4'
+                    };
+                    divs.push(React.DOM.div({key: i, style: barStyle}));
+                }
+                return divs;
+            };
+
+            divs=drawGraph('#F1E3AD', 2, x * 55, 72 - (sinTable[(x) & 4095] *15), 45 - (sinTable[(x*5) & 4095] * 20));
+            //divs2=drawGraph('#F1903B', 6, x * 55, 46 - (sinTable[(x) & 4095] *15), 45 - (sinTable[(x*5) & 4095] * 20));
 
             return (
                 React.DOM.div({ref: "myDiv", style: myStyle}, 
                     divs
                 )
-                )
+            )
         }
+        //render: function() {
+        //    if(!this.props.calculated) return(<div></div>)
+        //    var myStyle = {
+        //        //width: '480px',
+        //        //height: '320px',
+        //        //bgColor: '#000',
+        //        position: 'fixed'
+        //    };
+        //
+        //    divs=this.props.divs.one[this.state.myTicker];
+        //    //divs2=this.props.divs.two[this.state.myTicker++];
+        //
+        //    //console.log(this.state.myTicker);
+        //
+        //    return (
+        //        <div ref="myDiv" style={myStyle}>
+        //            {divs}
+        //        </div>
+        //        )
+        //}
     });
 
 module.exports = FastSin;
